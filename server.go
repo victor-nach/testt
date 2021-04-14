@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	defaultPort = "8080"
-	defaultHost = "http://localhost:" + defaultPort + "/u"
+	defaultPort = "5000"
+	defaultHost = "http://localhost:" + defaultPort
 )
 
 func main() {
@@ -38,7 +38,6 @@ func main() {
 
 	httpHandlers := handlers.NewHandler(dataStore)
 
-	//http.HandleFunc("/", httpHandlers.HandleShortUrl)
 	http.Handle("/graphql", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
 	http.HandleFunc("/", httpHandlers.HandleShortUrl)

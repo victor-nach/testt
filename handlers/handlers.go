@@ -24,15 +24,16 @@ func NewHandler(store db.Datastore) *httpHandler {
 
 func (h *httpHandler) HandleShortUrl(w http.ResponseWriter, r *http.Request) {
 	code := strings.Replace(r.URL.RequestURI(), "/", "", -1)
-
+	if code == "graphiql" {
+		return
+	}
 	// search for code in db
 	urlMap, err := h.Store.Get(code)
 	if err != nil {
-		http.Error(w, "404 not found.", http.StatusNotFound)
+		http.Error(w, "invalid short url", http.StatusNotFound)
 		return
 	}
 
-	// redirect to previously stored url
 	http.Redirect(w, r, urlMap.URL, 301)
 	return
 }
